@@ -26,7 +26,6 @@ public class RxCombineObservablesReproducer {
         //this will work as indented
         reproducer.combineLatestInterval();
         //this not
-        System.out.println("\n------------------------------toFast------------------------------\n");
         reproducer.combineLatestIntervalToFast();
     }
 
@@ -37,8 +36,8 @@ public class RxCombineObservablesReproducer {
         indicator2Obs = priceObs.map(i -> new Data("indicator2", i.getValue() / 2.0, i.getTs())).delay(50, TimeUnit.MILLISECONDS);
 
         priceObsToFast = Observable.interval(10, TimeUnit.MILLISECONDS).map(i -> new Data("price", i * 1.00, Instant.now())).publish();
-        indicator1ObsToFast = priceObsToFast.map(i -> new Data("indicator1", i.getValue() * 2.00, i.getTs())).delay(10, TimeUnit.MILLISECONDS);
-        indicator2ObsToFast = priceObsToFast.map(i -> new Data("indicator2", i.getValue() / 2.00, i.getTs())).delay(50, TimeUnit.MILLISECONDS);
+        indicator1ObsToFast = priceObsToFast.map(i -> new Data("indicator1ToFast", i.getValue() * 2.00, i.getTs())).delay(10, TimeUnit.MILLISECONDS);
+        indicator2ObsToFast = priceObsToFast.map(i -> new Data("indicator2ToFast", i.getValue() / 2.00, i.getTs())).delay(50, TimeUnit.MILLISECONDS);
     }
 
     private void combineLatestInterval() {
@@ -61,6 +60,7 @@ public class RxCombineObservablesReproducer {
     }
 
     private void combineLatestIntervalToFast() {
+        System.out.println("\n------------------------------toFast------------------------------\n");
         Observable.combineLatest(priceObsToFast, indicator1ObsToFast, indicator2ObsToFast, (Data priceToFast, Data indicator1ToFast, Data indicator2ToFast) -> {
             if (checkSameTs(priceToFast, indicator1ToFast, indicator2ToFast)) {
                 Map result = new HashMap<String, Data>();
