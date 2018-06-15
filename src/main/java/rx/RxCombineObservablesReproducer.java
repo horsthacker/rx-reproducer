@@ -66,7 +66,7 @@ public class RxCombineObservablesReproducer {
                 Map result = new HashMap<String, Data>();
                 result.put("priceToFast", priceToFast);
                 result.put("indicator1ToFast", indicator1ToFast);
-                result.put("indicator1ToFast", indicator2ToFast);
+                result.put("indicator2ToFast", indicator2ToFast);
                 return result;
                     }
                     return new HashMap<String, Data>();
