@@ -44,7 +44,11 @@ public class RxCombineObservablesReproducer {
     private void combineLatestInterval() {
         Observable.combineLatest(priceObs, indicator1Obs, indicator2Obs, (Data price, Data indicator1, Data indicator2) -> {
                     if (checkSameTs(price, indicator1, indicator2)) {
-                        return Map.of("price", price, "indicator1", indicator1, "indicator2", indicator2);
+                        Map result = new HashMap<String, Data>();
+                        result.put("price", price);
+                        result.put("indicator1", indicator1);
+                        result.put("indicator2", indicator2);
+                        return result;
                     }
                     return new HashMap<String, Data>();
                 }
@@ -57,9 +61,13 @@ public class RxCombineObservablesReproducer {
     }
 
     private void combineLatestIntervalToFast() {
-        Observable.combineLatest(priceObsToFast, indicator1Obs, indicator2Obs, (Data price, Data indicator1, Data indicator2) -> {
-                    if (checkSameTs(price, indicator1, indicator2)) {
-                        return Map.of("price", price, "indicator1", indicator1, "indicator2", indicator2);
+        Observable.combineLatest(priceObsToFast, indicator1ObsToFast, indicator2ObsToFast, (Data priceToFast, Data indicator1ToFast, Data indicator2ToFast) -> {
+            if (checkSameTs(priceToFast, indicator1ToFast, indicator2ToFast)) {
+                Map result = new HashMap<String, Data>();
+                result.put("priceToFast", priceToFast);
+                result.put("indicator1ToFast", indicator1ToFast);
+                result.put("indicator1ToFast", indicator2ToFast);
+                return result;
                     }
                     return new HashMap<String, Data>();
                 }
