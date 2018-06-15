@@ -1,0 +1,33 @@
+sourceCompatibility = '9'
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+task resolveSources {
+    doLast {
+        def componentIds = configurations.compile.incoming.resolutionResult.allDependencies.collect { it.selected.id }
+
+        def result = dependencies.createArtifactResolutionQuery()
+            .forComponents(componentIds)
+            .withArtifacts(JvmLibrary, SourcesArtifact, JavadocArtifact)
+            .execute()
+
+        for (component in result.resolvedComponents) {
+            component.getArtifacts(SourcesArtifact).each { println "Source artifact for ${component.id}: ${it.file}" }
+        }
+    }
+}
+
+
+task sourceJar(type: Jar) {
+  from sourceSets.main.allJava
+  classifier "sources"
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '3.4'
+}
+

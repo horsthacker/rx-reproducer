@@ -1,0 +1,33 @@
+buildscript {
+    repositories { jcenter() }
+    dependencies {
+        classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.3'
+    }
+}
+
+plugins {
+    id 'java' // or 'groovy' Must be explicitly applied
+    id 'com.github.johnrengelman.shadow' version '1.2.3'
+}
+
+compileJava {
+    options.compilerArgs << '-parameters'
+}
+
+version = '0.0.1'
+group = "rx.reproducer"
+ext {
+    vertxVersion = "3.5.1"
+}
+
+
+repositories {
+    mavenCentral()
+    maven {
+        url = 'http://oss.sonatype.org/content/repositories/snapshots/'
+    }
+}
+
+dependencies {
+    compile group: 'io.reactivex.rxjava2', name: 'rxjava', version: '2.1.14'
+}
