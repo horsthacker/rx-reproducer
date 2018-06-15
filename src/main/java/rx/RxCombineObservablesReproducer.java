@@ -64,6 +64,7 @@ public class RxCombineObservablesReproducer {
         Observable.combineLatest(priceObsToFast, indicator1ObsToFast, indicator2ObsToFast, (Data priceToFast, Data indicator1ToFast, Data indicator2ToFast) -> {
             if (checkSameTs(priceToFast, indicator1ToFast, indicator2ToFast)) {
                 Map result = new HashMap<String, Data>();
+                System.out.println("combineToFast");
                 result.put("priceToFast", priceToFast);
                 result.put("indicator1ToFast", indicator1ToFast);
                 result.put("indicator2ToFast", indicator2ToFast);
